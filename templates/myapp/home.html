@@ -1,15 +1,112 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ title }}</title>
-</head>
-<body>
-    <h1>Головна сторінка</h1>
-    <ul>
-        {% for name, link in pages.items %}
-            <li><a href="{% url link %}">{{ name }}</a></li>
-        {% endfor %}
-    </ul>
-</body>
-</html>
+{% extends "myapp/base.html" %}
+
+{% block title %}Головна - Пекарня ДІК{% endblock %}
+
+{% load static %}
+
+{% block content %}
+<div class="container-fluid p-0">
+    <!-- Блок з великим банером -->
+    <section class="hero">
+        <div class="banner">
+            <img src="{% static 'images/фотографія для головного банера.png' %}" alt="Головний банер">
+        </div>
+    </section>
+
+        <!-- Каталог товарів -->
+    <section id="catalog" class="catalog container">
+        <h2>Каталог товарів</h2>
+        <div class="row justify-content-center">
+            <div class="col-md-3 text-center">
+                <img src="{% static 'images/Кондитерські вироби.png' %}" alt="Кондитерські вироби">
+            </div>
+            <div class="col-md-3 text-center">
+                <img src="{% static 'images/Листково-дріжджові вироби.png' %}" alt="Листково-дріжджові вироби">
+            </div>
+            <div class="col-md-3 text-center">
+                <img src="{% static 'images/Хлібно-булочні вироби.png' %}" alt="Хлібно-булочні вироби">
+            </div>
+            <div class="col-md-3 text-center">
+                <img src="{% static 'images/Напівфабрикати.png' %}" alt="Напівфабрикати">
+            </div>
+        </div>
+    </section>
+
+<!-- Блок Історії та Графіків -->
+<section id="history-charts" class="history-charts-wrapper">
+    <!-- Ліва частина: Історія -->
+    <div class="history-section">
+        <h2 class="history-title">Історія Розвитку</h2>
+        <p class="history-text">
+            «Пекарня ДІК» з 1996 року насичує ринок Закарпаття якісною та натуральною хлібобулочною та кондитерською продукцією.
+            Наша перевага – це хлібобулочна продукція на власних заквасках та кондитерські вироби із натуральними кремами.
+        </p>
+        <p class="history-text">
+            Ми знаємо, що якість – це перш за все команда яка працює над нею, тому щодня працюємо над тим аби наші працівники робили свою справу із задоволенням. На цьому сайті ви зможете ознайомитись із власними посадовими інструкціями та додатками до них, вивчити продукцію та знайти потрібного саме Вам працівника офісу, який буде компетентний саме у Вашому питанні.
+        </p>
+        <p class="history-text">
+            Крім того тут будуть знаходитись всі нові накази та новини для працівників «Пекарні ДІК»
+        </p>
+    </div>
+
+<!-- Права частина: Графіки -->
+    <div class="charts-right">
+        <div class="chart">
+            <img src="{% static 'images/графік_якість_сировинит.png' %}" alt="Графік якості сировини">
+        </div>
+        <div class="chart">
+            <img src="{% static 'images/графік_шокова_заморозка.png' %}" alt="Графік шокової заморозки">
+        </div>
+        <div class="chart">
+            <img src="{% static 'images/графік_надійність_доставки.png' %}" alt="Графік надійності доставки">
+        </div>
+    </div>
+</section>
+
+    <!-- Фото пекарів -->
+    <section class="bakers-section">
+        <h2>НАШІ ПЕКАРІ</h2>
+        <div class="bakers-gallery">
+            <img src="{% static 'images/пекар1.png' %}" alt="Пекар 1">
+            <img src="{% static 'images/пекар2.png' %}" alt="Пекар 2">
+            <img src="{% static 'images/пекар3.png' %}" alt="Пекар 3">
+            <img src="{% static 'images/пекар4.png' %}" alt="Пекар 4">
+        </div>
+    </section>
+
+    <!-- Блок з маленьким банером -->
+    <section class="mini-banner">
+        <div class="small-banner">
+            <img src="{% static 'images/міні-банер.png' %}" alt="Маленький банер">
+        </div>
+    </section>
+
+    <!-- Підвал -->
+    <section id="footer" class="footer-banner">
+        <img src="{% static 'images/підвал.png' %}" alt="Підвал" class="footer-image">
+
+        <div class="email-subscribe">
+            <input type="email" placeholder="Ваш email" class="email-input">
+            <button class="submit-button">
+                ➤
+            </button>
+        </div>
+
+        <div class="social-icons-footer">
+            <a href="https://facebook.com" target="_blank">
+                <img src="{% static 'images/facebook-icon2.png' %}" alt="Facebook">
+            </a>
+            <a href="https://instagram.com" target="_blank">
+                <img src="{% static 'images/instagram-icon2.png' %}" alt="Instagram">
+            </a>
+            <a href="https://telegram.org" target="_blank">
+                <img src="{% static 'images/telegram-icon2.png' %}" alt="Twitter">
+            </a>
+            <a href="https://youtube.com" target="_blank">
+                <img src="{% static 'images/youtube-icon.png' %}" alt="YouTube">
+            </a>
+        </div>
+    </section>
+
+</div>
+{% endblock %}
