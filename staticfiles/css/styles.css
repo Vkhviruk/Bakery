@@ -1,0 +1,446 @@
+/* Основні стилі */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html, body {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden; /* Вимикає горизонтальний скрол */
+    font-family: Arial, sans-serif;
+    background-color: #f5f0e6;
+    scroll-behavior: smooth;
+}
+
+/* Шапка сайту */
+.header {
+    background-color: #d2a679;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 5%;
+    width: 100%;
+}
+
+/* Логотип */
+.logo {
+    width: 170px;
+    height: auto;
+}
+
+/* Контакти у шапці */
+.address, .phone {
+    font-size: 14px;
+    color: #fff;
+    margin-left: 15px;
+}
+
+/* Контакти у шапці */
+.contact-info {
+    display: flex;
+    gap: 50px;
+    align-items: center;
+}
+
+.contact-info div {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 22px;
+    color: white;
+    font-weight: bold;
+}
+
+.contact-info p {
+    color: white !important;
+    font-size: 18px;
+}
+
+/* Іконки перед контактами */
+.icon {
+    width: 24px;
+    height: 24px;
+}
+
+/* Соцмережі в правому верхньому куті */
+.social-icons {
+    display: flex;
+    justify-content: end;
+    gap: 10px;
+}
+
+.social-icons a img {
+    width: 32px;
+    height: 32px;
+    transition: opacity 0.3s;
+}
+
+.social-icons a img:hover {
+    opacity: 0.7;
+}
+
+/* Навігація */
+.navbar-nav .nav-link {
+    color: #5b3a29 !important;
+    font-weight: bold;
+    transition: color 0.3s ease-in-out;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #a45d3b !important;
+}
+
+/* Банер */
+.banner {
+    width: 100vw;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.banner img {
+    width: 100vw;
+    height: auto;
+    object-fit: cover;
+}
+
+/* Каталог товарів */
+.catalog {
+    text-align: center;
+    padding: 40px 5%;
+    width: 100vw;
+    overflow-x: hidden;
+}
+
+.catalog h2 {
+    color: #5b3a29;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Стилізація товарів */
+.catalog .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 20px;
+}
+
+.catalog .col-md-3 {
+    flex: 1 1 calc(25% - 20px);
+    max-width: 100vw;
+}
+
+.catalog img {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.catalog img:hover {
+    transform: scale(1.05);
+}
+
+/* Обгортка для історії + графіків */
+.history-charts-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 130px;
+    width: 84%;
+    margin: 50px auto;
+    position: relative;
+}
+
+/* Історія */
+.history-section {
+    flex: 1;
+    min-width: 400px;
+    color: #5b3a29;
+}
+
+.history-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #3a1f0b;
+    margin-bottom: 20px;
+}
+
+.history-text {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+/* Графіки праворуч */
+.charts-right {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 90px; /* Зсунь нижче відносно тексту */
+    flex-direction: column;
+    gap: 35px;
+}
+
+.chart {
+    text-align: left;
+    font-size: 18px;
+    color: #3a1f0b;
+    width: 100%;
+    max-width: 450px;
+}
+
+.chart img {
+    width: 1200px;
+    height: 60px;
+    max-width: 400px;
+}
+
+/* Блок пекарів */
+.bakers-section {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.bakers-section h2 {
+    font-size: 28px;
+    color: #3a1f0b;
+    margin-bottom: 20px;
+}
+
+.bakers-gallery {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100vw;
+    padding: 0 7%;
+}
+
+.bakers-gallery img {
+    width: 23%;
+    height: 320px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.navbar-nav .dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* Показувати меню при наведенні */
+.navbar-nav .dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+/* Стиль посилань у випадаючому меню */
+.dropdown-menu .dropdown-item {
+    color: black;
+    padding: 8px 15px;
+}
+
+/* Секція з міні-банером на всю ширину */
+.mini-banner {
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* прибирає прокрутку, якщо зображення велике */
+    }
+
+/* Внутрішній контейнер */
+.small-banner {
+    width: 100%;
+    }
+
+/* Зображення */
+.small-banner img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    }
+
+/* Підвал */
+.footer-banner {
+    width: 100vw;
+    position: relative;
+    overflow: hidden;
+
+}
+
+.footer-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Форма підписки */
+.email-subscribe {
+    position: absolute;
+    bottom: 400px;  /* можна змінювати */
+    right: 155px;   /* можна змінювати */
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    z-index: 10;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+
+}
+
+/* Поле вводу */
+.email-input {
+    width: 200px;
+    height: 50px;
+    padding: 0 10px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    outline: none;
+}
+
+/* Кнопка зі стрілкою */
+.submit-button {
+    height: 50px;
+    width: 50px;
+    font-size: 24px;
+    background-color: #d39e5d;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+    background-color: #b87d3a;
+}
+.social-icons-footer {
+  position: absolute;
+  right: 150px;     /* можна змінити */
+  bottom: 115px;    /* можна змінити */
+  display: flex;
+  gap: 15px;
+  z-index: 10;
+}
+
+.social-icons-footer img {
+  width: 55px;
+  height: 55px;
+  transition: transform 0.3s ease;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+}
+
+.social-icons-footer img:hover {
+  transform: scale(1.15);
+}
+
+/* Горизонтальна прокрутка категорій */
+.category-scroll-wrapper {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding: 20px 0;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Карточка категорії */
+.category-card {
+    min-width: 220px;
+    flex-shrink: 0;
+    text-align: center;
+}
+
+/* Обгортка з дошкою */
+.wooden-background {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+}
+
+/* Зображення дошки */
+.wood-background {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Зображення продукту */
+.product-image {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 65px;
+    height: 65px;
+    background-color: white;
+    border-radius: 50%;
+    padding: 3px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Назва категорії */
+.category-title {
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: 16px;
+    color: #5a3e1b;
+    text-shadow: 0 0 5px rgba(255,255,255,0.6);
+}
+
+
+/* Адаптивність */
+@media (max-width: 768px) {
+    .banner {
+        height: 50vh;
+    }
+
+    .catalog .row {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .catalog .col-md-3 {
+        max-width: 100%;
+    }
+
+    .history-charts-wrapper {
+        flex-direction: column;
+    }
+
+    .charts-right, .history-section {
+        width: 100%;
+    }
+
+    .chart img {
+        max-width: 100%;
+    }
+
+    .bakers-gallery {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .bakers-gallery img {
+        width: 80%;
+        height: auto;
+    }
+
+}

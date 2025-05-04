@@ -13,12 +13,41 @@
         </div>
     </section>
 
-        <!-- Каталог товарів -->
-    <section id="catalog" class="catalog container">
+<!-- Каталог товарів -->
+<section id="catalog" class="catalog container">
+    <h2>Каталог товарів</h2>
+
+    <div class="category-carousel-wrapper">
+        <button class="arrow left-arrow" onclick="scrollCategories(-1)">&#10094;</button>
+
+        <div class="category-carousel" id="category-carousel">
+            {% for category in categories %}
+                <a href="{% url 'category_detail' category.id %}" class="category-card">
+                    <div class="wooden-background">
+                        {% if category.background_image %}
+                            <img src="{{ category.background_image.url }}" alt="Фон" class="wood-background">
+                        {% else %}
+                            <img src="{% static 'images/wooden_round.png' %}" alt="Фон за замовчуванням" class="wood-background">
+                        {% endif %}
+
+                        {% if category.category_image %}
+                            <div class="product-image">
+                                <img src="{{ category.category_image.url }}" alt="{{ category.name }}">
+                            </div>
+                        {% endif %}
+                        <div class="category-title">{{ category.name }}</div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+        <button class="arrow right-arrow" onclick="scrollCategories(1)">&#10095;</button>
+    </div>
+</section>
+    <!-- <section id="catalog" class="catalog container">
         <h2>Каталог товарів</h2>
         <div class="row justify-content-center">
             <div class="col-md-3 text-center">
-                <img src="{% static 'images/Кондитерські вироби.png' %}" alt="Кондитерські вироби">
+             <img src="{% static 'images/Кондитерські вироби.png' %}" alt="Кондитерські вироби">
             </div>
             <div class="col-md-3 text-center">
                 <img src="{% static 'images/Листково-дріжджові вироби.png' %}" alt="Листково-дріжджові вироби">
@@ -30,7 +59,7 @@
                 <img src="{% static 'images/Напівфабрикати.png' %}" alt="Напівфабрикати">
             </div>
         </div>
-    </section>
+    </section> -->
 
 <!-- Блок Історії та Графіків -->
 <section id="history-charts" class="history-charts-wrapper">
@@ -78,33 +107,6 @@
     <section class="mini-banner">
         <div class="small-banner">
             <img src="{% static 'images/міні-банер.png' %}" alt="Маленький банер">
-        </div>
-    </section>
-
-    <!-- Підвал -->
-    <section id="footer" class="footer-banner">
-        <img src="{% static 'images/підвал.png' %}" alt="Підвал" class="footer-image">
-
-        <div class="email-subscribe">
-            <input type="email" placeholder="Ваш email" class="email-input">
-            <button class="submit-button">
-                ➤
-            </button>
-        </div>
-
-        <div class="social-icons-footer">
-            <a href="https://facebook.com" target="_blank">
-                <img src="{% static 'images/facebook-icon2.png' %}" alt="Facebook">
-            </a>
-            <a href="https://instagram.com" target="_blank">
-                <img src="{% static 'images/instagram-icon2.png' %}" alt="Instagram">
-            </a>
-            <a href="https://telegram.org" target="_blank">
-                <img src="{% static 'images/telegram-icon2.png' %}" alt="Twitter">
-            </a>
-            <a href="https://youtube.com" target="_blank">
-                <img src="{% static 'images/youtube-icon.png' %}" alt="YouTube">
-            </a>
         </div>
     </section>
 

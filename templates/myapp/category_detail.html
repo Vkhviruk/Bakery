@@ -1,0 +1,31 @@
+<!-- category_detail.html -->
+{% extends "myapp/base.html" %}
+
+{% block content %}
+<!-- Банер -->
+<div class="category-banner">
+    <img src="{{ category.banner_image.url }}" alt="{{ category.name }}">
+    <div class="overlay">
+        <h1>{{ category.name }}</h1>
+    </div>
+</div>
+
+<!-- Товари -->
+<div class="max-w-7xl mx-auto px-6 py-10">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+        {% for product in products %}
+        <div class="product-card-category">
+            <a href="{% url 'product_detail' product.id %}">
+                <img src="{{ product.product_image.url }}" alt="{{ product.name }}" class="product-image-category">
+                <div class="product-info-category">
+                    <h2 class="product-name">{{ product.name }}</h2>
+                    <p class="product-description">{{ product.description }}</p>
+                    <p class="product-price"><strong>Ціна:</strong> {{ product.price }} грн</p>
+                    <p class="product-weight"><strong>Вага:</strong> {{ product.weight }} г</p>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

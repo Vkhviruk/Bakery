@@ -35,7 +35,7 @@ class Migration(migrations.Migration):
                 ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Дата створення')),
                 ('updated_at', models.DateTimeField(auto_now=True, verbose_name='Дата оновлення')),
                 ('available', models.BooleanField(default=True, verbose_name='В наявності')),
-                ('product_type', models.CharField(choices=[('bread', 'Хліб'), ('cake', 'Торт'), ('cookie', 'Печиво'), ('drink', 'Напій')], default='bread', max_length=10, verbose_name='Тип продукту')),
+                ('product_type', models.CharField(choices=[('bread', 'Хліб'), ('cake', 'Торт'), ('cookie', 'Печиво'), ('drink', 'Напій')], default='bread', max_length=30, verbose_name='Тип продукту')),
                 ('category', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='myapp.category', verbose_name='Категорія')),
             ],
             options={
