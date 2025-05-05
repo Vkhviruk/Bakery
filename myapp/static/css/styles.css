@@ -543,7 +543,7 @@ html, body {
     align-items: center;
 
     width: 100%; /* Щоб займати повну ширину в колонці */
-    height: 640px; /* Щоб усі картки були однакової висоти */
+    height: 680px; /* Щоб усі картки були однакової висоти */
     box-sizing: border-box;
 }
 
@@ -594,6 +594,18 @@ html, body {
     font-size: 1rem;
     margin-bottom: 0.25rem;
 }
+
+.btn-brown {
+    background-color: #6f4e37; /* Класичний коричневий */
+    color: white;
+    border: none;
+}
+
+.btn-brown:hover {
+    background-color: #5a3d2b;
+    color: white;
+}
+
 
 
 
@@ -803,7 +815,7 @@ html, body {
     /* Карточка продукту */
     .product-card-category {
         width: 100%; /* Щоб займати повну ширину в колонці */
-        height: 640px; /* Щоб усі картки були однакової висоти */
+        height: 680px; /* Щоб усі картки були однакової висоти */
         box-sizing: border-box;
     }
 
