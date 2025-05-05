@@ -11,19 +11,21 @@
 </div>
 
 <!-- Товари -->
-<div class="max-w-7xl mx-auto px-6 py-10">
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+<div class="container my-5">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
         {% for product in products %}
-        <div class="product-card-category">
-            <a href="{% url 'product_detail' product.id %}">
-                <img src="{{ product.product_image.url }}" alt="{{ product.name }}" class="product-image-category">
-                <div class="product-info-category">
-                    <h2 class="product-name">{{ product.name }}</h2>
-                    <p class="product-description">{{ product.description }}</p>
-                    <p class="product-price"><strong>Ціна:</strong> {{ product.price }} грн</p>
-                    <p class="product-weight"><strong>Вага:</strong> {{ product.weight }} г</p>
-                </div>
-            </a>
+        <div class="col">
+            <div class="product-card-category">
+                <a href="{% url 'product_detail' product.id %}" class="text-decoration-none text-dark">
+                    <img src="{{ product.product_image.url }}" class="product-image-category" alt="{{ product.name }}">
+                    <div class="product-info-category">
+                        <h5 class="product-name">{{ product.name }}</h5>
+                        <p class="product-description">{{ product.description }}</p>
+                        <p class="product-price"><strong>Ціна:</strong> {{ product.price }} грн</p>
+                        <p class="product-weight"><strong>Вага:</strong> {{ product.weight }} г</p>
+                    </div>
+                </a>
+            </div>
         </div>
         {% endfor %}
     </div>

@@ -543,14 +543,9 @@ html, body {
     align-items: center;
 
     width: 100%; /* Щоб займати повну ширину в колонці */
-    height: 560px; /* Щоб усі картки були однакової висоти */
+    height: 640px; /* Щоб усі картки були однакової висоти */
     box-sizing: border-box;
 }
-/* max-width: 22rem;
-    margin: 0 auto;
-    padding: 1rem;
-    height: auto;
-    box-sizing: border-box; */
 
 .product-card-category:hover {
     transform: translateY(-5px);
@@ -559,7 +554,7 @@ html, body {
 /* Фото продукту */
 .product-image-category {
     width: 400px;              /* трохи менше ніж ширина карточки */
-    height: 16rem;             /* висота фото */
+    height: 20rem;             /* висота фото */
     object-fit: cover;
     border-radius: 0.75rem;
 
@@ -786,5 +781,79 @@ html, body {
     .arrow {
         display: none; /* Стрілки краще прибрати на телефоні */
     }
+
+    .category-banner {
+        height: 200px;
+    }
+
+    .product-name {
+        font-size: 1rem;
+    }
+
+    .product-description,
+    .product-price,
+    .product-weight {
+        font-size: 0.9rem;
+    }
+
+    .product-info-category {
+        padding: 0.75rem;
+    }
+
+    /* Карточка продукту */
+    .product-card-category {
+        width: 100%; /* Щоб займати повну ширину в колонці */
+        height: 640px; /* Щоб усі картки були однакової висоти */
+        box-sizing: border-box;
+    }
+
+    .product-card-category:hover {
+        transform: translateY(-5px);
+    }
+
+/* Фото продукту */
+    .product-image-category {
+        width: 100%;              /* трохи менше ніж ширина карточки */
+        height: auto;             /* висота фото */
+        max-height: 380px;
+        object-fit: cover;
+        border-radius: 0.75rem;
+
+    /* Вирівнювання фото */
+        display: block;
+        margin: 1rem auto 1.5rem auto; /* зверху, зліва/справа, знизу */
+    }
+
+/* Інформація */
+    .product-info-category {
+        padding: 0 1rem 1rem 1rem;
+        text-align: center;
+        color: black;
+        flex-grow: 1; /* Розтягує опис донизу */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+/* Назва продукту */
+    .product-name {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+/* Опис */
+    .product-description {
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+    }
+
+/* Ціна та вага */
+    .product-price,
+    .product-weight {
+        font-size: 1rem;
+        margin-bottom: 0.25rem;
+    }
+
 
 }

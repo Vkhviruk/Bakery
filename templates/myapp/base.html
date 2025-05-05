@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Пекарня ДІК{% endblock %}</title>
 
-    <!-- Tailwind CDN (тільки для швидкого тесту, не продакшн) -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
     <!-- Підключаємо Bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
@@ -32,7 +29,7 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-4">
-                    <img src="{% static 'images/ logo.png' %}" alt="Логотип" class="logo">
+                    <img src="{% static 'images/logo.png' %}" alt="Логотип" class="logo">
                 </div>
                 <div class="col-md-4 text-center contact-info gap-lg-3">
                     <p>
@@ -51,19 +48,20 @@
                 </div>
             </div>
             <nav class="navbar navbar-expand-lg navbar-light">
+              <div class="container">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav mx-auto">
-                        <li class="nav-item"><a class="nav-link" href="#catalog">Головна</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'home' %}#catalog">Головна</a></li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="productsDropdown" role="button">
+                            <a class="nav-link dropdown-toggle" href="#" id="productsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Продукція
                             </a>
                             <ul class="dropdown-menu">
-                                {% for product in products %}
-                                <li><a class="dropdown-item" href="#">{{ product.name }}</a></li>
+                                {% for product in all_products %}
+                                <li><a class="dropdown-item" href="{% url 'product_detail' product.id %}">{{ product.name }}</a></li>
                                <!--<li><a class="dropdown-item" href="#">Бутерброди</a></li>
                                 <li><a class="dropdown-item" href="#">Печиво в коробці</a></li>
                                 <li><a class="dropdown-item" href="#">Слойки</a></li>
@@ -73,10 +71,11 @@
                                 {% endfor %}
                             </ul>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="#history-charts">Про нас</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'home' %}#history-charts">Про нас</a></li>
                         <li class="nav-item"><a class="nav-link" href="#footer">Контакти</a></li>
                     </ul>
                 </div>
+              </div>
             </nav>
         </div>
     </header>
@@ -119,15 +118,6 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            document.getElementById("productsDropdown").addEventListener("click", function (event) {
-                event.preventDefault();
-                let menu = this.nextElementSibling;
-                menu.style.display = menu.style.display === "block" ? "none" : "block";
-            });
-        });
-    </script>
 <script>
     function scrollCategories(direction) {
         const carousel = document.getElementById('category-carousel');
