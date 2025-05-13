@@ -16,7 +16,10 @@
             <p class="mb-3"><strong>Склад:</strong> {{ product.ingredients }}</p>
             <p class="mb-3"><strong>Ціна:</strong> {{ product.price }} грн</p>
             <p class="mb-3"><strong>Вага:</strong> {{ product.weight }} г</p>
-            <button class="btn btn-brown w-100 btn-lg mt-3">Купити</button>
+            <button class="btn btn-brown w-100 btn-lg mt-3 buy-btn"
+                    data-weight="Вага: {{ product.weight }} г">
+                Купити
+            </button>
         </div>
     </div>
 </div>

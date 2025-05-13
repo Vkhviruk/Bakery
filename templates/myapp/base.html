@@ -46,6 +46,12 @@
                     <a href="https://telegram.org" target="_blank"><img src="{% static 'images/telegram-icon.png' %}" alt="Telegram"></a>
                     <a href="https://instagram.com" target="_blank"><img src="{% static 'images/instagram-icon.png' %}" alt="Instagram"></a>
                 </div>
+                <div class="position-relative">
+                    <button id="cartBtn" class="btn btn-outline-dark position-fixed top-0 end-0 m-3">
+                        🛒 Кошик
+                        <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+                    </button>
+                </div>
             </div>
             <nav class="navbar navbar-expand-lg navbar-light">
               <div class="container">
@@ -91,7 +97,9 @@
 
         <form method="POST" action="{% url 'subscribe' %}" class="email-subscribe">
             {% csrf_token %}
-            <input type="email" name="email" placeholder="Ваш email" class="email-input" required>
+            <label>
+                <input type="email" name="email" placeholder="Ваш email" class="email-input" required>
+            </label>
             <button type="submit" class="submit-button">➤</button>
         </form>
 
@@ -128,6 +136,136 @@
             behavior: 'smooth'
         });
     }
+</script>
+
+<!-- Бічне вікно кошика -->
+<div id="cartSidebar" class="position-fixed top-0 end-0 bg-white border-start shadow p-3" style="width: 380px; height: 100vh; transform: translateX(100%); transition: transform 0.3s; z-index: 1050;">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="mb-0">Кошик</h5>
+    <button id="closeCart" class="btn-close"></button>
+  </div>
+
+  <div id="cartItems" class="overflow-auto" style="max-height: 75vh;"></div> <!-- max-height для прокручування -->
+
+  <div class="mt-4">
+    <p><strong>До оплати без доставки:</strong> <span id="cartTotal">0 грн</span></p>
+    <a href="{% url 'checkout' %}" class="btn btn-primary w-100">Оформити замовлення</a>
+  </div>
+</div>
+
+<script>
+let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
+updateCartUI();
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Закриття бічного вікна кошика
+    document.getElementById("closeCart").onclick = () => {
+        document.getElementById("cartSidebar").style.transform = "translateX(100%)";
+    };
+
+    // Додаємо обробник для кнопки "Купити" на сторінці каталогу товарів
+    document.querySelectorAll(".buy-btn").forEach((button) => {
+        button.addEventListener("click", function (e) {
+            e.preventDefault();
+
+            let name, price, weight, img;
+            if (button.closest(".product-card-category")) {
+                const card = button.closest(".product-card-category");
+                name = card.querySelector(".product-name").textContent;
+                price = parseFloat(card.querySelector(".product-price").textContent.replace(/\D/g, ''));
+                weight = button.getAttribute("data-weight");  // Отримуємо текст з атрибута data-weight
+                img = card.querySelector("img").src;
+            } else {
+                name = "{{ product.name }}";
+                price = parseFloat("{{ product.price }}");
+                weight = button.getAttribute("data-weight"); // Отримуємо текст з data-weight
+                img = "{{ product.product_image.url }}";
+            }
+
+            const existingItem = cart.find(item => item.name === name);
+
+            if (!existingItem) {
+                // Додаємо товар, якщо його ще немає
+                cart.push({ name, price, weight, img, quantity: 1 });
+                button.textContent = "До кошика";
+                updateCartUI();
+            } else if (button.textContent === "До кошика") {
+                // Якщо вже є — просто відкриваємо кошик, нічого не додаємо
+                document.getElementById("cartSidebar").style.transform = "translateX(0%)";
+            }
+        });
+    });
+
+    // Оновлення кнопки на сторінці товару, якщо товар уже в кошику
+    document.querySelectorAll(".buy-btn").forEach((button) => {
+        const name = button.closest(".product-card-category") ?
+            button.closest(".product-card-category").querySelector(".product-name").textContent :
+            "{{ product.name }}";
+
+        const isInCart = cart.some(item => item.name === name);
+        if (isInCart) {
+            button.textContent = "До кошика"; // Якщо товар в кошику, текст змінюється
+        }
+    });
+
+    // Клік по іконці кошика — перемикає його
+    document.getElementById("cartBtn").onclick = () => {
+        const sidebar = document.getElementById("cartSidebar");
+        const isVisible = sidebar.style.transform === "translateX(0%)";
+        sidebar.style.transform = isVisible ? "translateX(100%)" : "translateX(0%)";
+    };
+});
+
+function updateCartUI() {
+    const container = document.getElementById("cartItems");
+    container.innerHTML = "";
+    let total = 0;
+
+    cart.forEach((item, index) => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
+
+        const html = `
+        <div class="d-flex align-items-center mb-3">
+          <img src="${item.img}" alt="" width="60" class="me-3 rounded">
+          <div class="flex-grow-1">
+            <p class="mb-1"><strong>${item.name}</strong></p>
+            <p class="mb-1">${item.weight}</p> <!-- Тепер тут виводиться весь текст -->
+            <div class="d-flex align-items-center">
+              <button class="btn btn-sm btn-outline-secondary me-2" onclick="decreaseQuantity(${index})">−</button>
+              <span>${item.quantity}</span>
+              <button class="btn btn-sm btn-outline-secondary ms-2" onclick="increaseQuantity(${index})">+</button>
+            </div>
+            <p class="mb-0 mt-1">${itemTotal} грн</p>
+          </div>
+          <button class="btn btn-sm btn-danger ms-2" onclick="removeItem(${index})">&times;</button>
+        </div>
+      `;
+      container.innerHTML += html;
+    });
+
+    document.getElementById("cart-count").textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+    document.getElementById("cartTotal").textContent = total + " грн";
+    sessionStorage.setItem("cart", JSON.stringify(cart));
+}
+
+function increaseQuantity(index) {
+    cart[index].quantity += 1;
+    updateCartUI();
+}
+
+function decreaseQuantity(index) {
+    cart[index].quantity -= 1;
+    if (cart[index].quantity <= 0) {
+        cart.splice(index, 1);
+    }
+    updateCartUI();
+}
+
+function removeItem(index) {
+    cart.splice(index, 1);
+    updateCartUI();
+}
 </script>
 
 </body>

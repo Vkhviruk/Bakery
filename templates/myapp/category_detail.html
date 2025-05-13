@@ -21,12 +21,12 @@
                     <div class="product-info-category">
                         <h5 class="product-name">{{ product.name }}</h5>
                         <p class="product-description">{{ product.description }}</p>
-                        <p class="product-price"><strong>Ціна:</strong> {{ product.price }} грн</p>
+                        <p class="product-price"><strong>Ціна:</strong> {{ product.price }} грн </p>
                         <p class="product-weight"><strong>Вага:</strong> {{ product.weight }} г</p>
                     </div>
                 </a>
                     <div class="text-center p-2">
-                        <button class="btn btn-brown w-100">Купити</button>
+                        <button class="btn btn-brown w-100 btn-lg mt-3 buy-btn" data-weight="Вага: {{ product.weight }} г">Купити</button>
                     </div>
             </div>
         </div>

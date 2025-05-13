@@ -1,0 +1,296 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Оформлення замовлення{% endblock %}</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+
+<main>
+{% block content %}
+<div class="container my-3">
+    <h1 class="mb-4 fw-bold fs-5 text-center">Оформлення замовлення</h1>
+    <form id="orderForm" method="post" action="{% url 'process_order' %}">
+        {% csrf_token %}
+        <div class="row">
+            <!-- Ліва колонка: Форма -->
+            <div class="col-lg-8">
+                <!-- 1. Контактні дані -->
+                <div class="border rounded p-4 mb-4 white-card">
+                    <h5 class="fw-bold mb-3 text-primary">1. Контактні дані <span class="text-danger">*</span></h5>
+                    <div class="mb-3">
+                        <label class="form-label">Телефон <span class="text-danger">*</span></label>
+                        <input name="phone" type="tel" class="form-control" placeholder="+380 (__) ___-__-__" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Прізвище <span class="text-danger">*</span></label>
+                        <input name="last_name" type="text" class="form-control" placeholder="Введіть прізвище кирилицею" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Імʼя <span class="text-danger">*</span></label>
+                        <input name="first_name" type="text" class="form-control" placeholder="Введіть імʼя кирилицею" required>
+                    </div>
+                </div>
+
+                <!-- 2. Доставка -->
+                <div class="border rounded p-4 mb-4 white-card">
+                    <h5 class="fw-bold mb-3 text-primary">2. Доставка <span class="text-danger">*</span></h5>
+                    <!-- Укр Пошта -->
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="delivery_method" id="roz" value="ukr_poshta" checked>
+                        <label class="form-check-label" for="roz">
+                            Укр Пошта — 30 ₴
+                        </label>
+                    </div>
+                    <div id="ukrposhtaFields" class="ms-4 mt-3">
+                        <div class="mb-3">
+                            <label class="form-label">Населений пункт <span class="text-danger">*</span></label>
+                            <input name="ukrposhta_city" type="text" class="form-control" placeholder="Наприклад: Луцьк">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Вулиця <span class="text-danger">*</span></label>
+                            <input name="ukrposhta_street" type="text" class="form-control" placeholder="Наприклад: вул. Лесі Українки, 12">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Поштовий індекс <span class="text-danger">*</span></label>
+                            <input name="ukrposhta_postal_code" type="text" class="form-control" placeholder="Наприклад: 43000">
+                        </div>
+                    </div>
+                    <!-- Нова Пошта -->
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="delivery_method" id="nova" value="nova_poshta">
+                        <label class="form-check-label" for="nova">
+                            Нова Пошта — від 60 ₴
+                        </label>
+                    </div>
+                    <div id="novaFields" class="ms-4 mt-3">
+                        <div class="mb-3">
+                            <label class="form-label">Населений пункт <span class="text-danger">*</span></label>
+                            <input name="nova_city" type="text" class="form-control" placeholder="Наприклад: Луцьк">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Вулиця <span class="text-danger">*</span></label>
+                            <input name="nova_street" type="text" class="form-control" placeholder="Наприклад: вул. Лесі Українки, 12">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Номер відділення / поштомату <span class="text-danger">*</span></label>
+                            <input name="nova_poshta_branch" type="text" class="form-control" placeholder="Наприклад: №12 або 50013">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Оплата -->
+                <div class="border rounded p-4 mb-4 white-card">
+                    <h5 class="fw-bold mb-3 text-primary">3. Оплата <span class="text-danger">*</span></h5>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="payment_method" id="cardPay" value="card" checked>
+                        <label class="form-check-label" for="cardPay">
+                            Безпечна оплата карткою
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="payment_method" id="cashPay" value="cod">
+                        <label class="form-check-label" for="cashPay">
+                            Післяплата
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Права колонка: Кошик -->
+            <div class="col-lg-4 border rounded p-4 mb-4 white-card">
+                <h5 class="fw-bold mb-3">Замовлення <span class="text-muted" id="itemCountText">(0 товарів)</span></h5>
+
+                <div id="checkoutCartItems"></div>
+
+                <hr>
+
+                <p class="d-flex justify-content-between">
+                    <span>Вартість замовлення:</span>
+                    <strong id="checkoutTotalPrice">0 ₴</strong>
+                </p>
+                <p class="d-flex justify-content-between">
+                    <span>До оплати без доставки:</span>
+                    <strong id="checkoutTotalPriceFinal">0 ₴</strong>
+                </p>
+
+                <!-- Кнопки оплати -->
+                <div id="card-buttons" class="mt-3">
+                    <button type="button" id="google-pay-btn" class="btn btn-dark w-100 mb-2 d-flex align-items-center justify-content-center">
+                        <img src="{% static 'images/google-pay.svg' %}" alt="GPay" width="40" class="me-2"> Оплатити через Google Pay
+                    </button>
+                    <button type="button" id="apple-pay-btn" class="btn btn-dark w-100 d-flex align-items-center justify-content-center">
+                        <img src="{% static 'images/apple-pay.svg' %}" alt="Apple Pay" width="40" class="me-2"> Оплатити через Apple Pay
+                    </button>
+                </div>
+
+                <!-- Кнопка для післяплати -->
+                <button id="cash-button" type="submit" class="btn btn-primary w-100 mt-3 d-none">Оформити замовлення</button>
+
+                <!-- Поле для фактичного збереження payment_method -->
+                <input type="hidden" name="payment_method" id="payment_method_input" value="card">
+
+                <!-- Приховані поля для замовлення -->
+                <input type="hidden" name="order_items" id="order_items_input">
+                <input type="hidden" name="order_total" id="order_total_input">
+
+                <div class="mt-3">
+                    <a class="text-decoration-none small" data-bs-toggle="collapse" href="#promoCollapse">
+                        Ввести промокод
+                    </a>
+                    <div class="collapse mt-2" id="promoCollapse">
+                        <input type="text" class="form-control" name="promo_code" placeholder="Промокод">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
+</main>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const rozRadio = document.getElementById("roz");
+        const novaRadio = document.getElementById("nova");
+
+        const ukrFields = document.getElementById("ukrposhtaFields");
+        const novaFields = document.getElementById("novaFields");
+
+        function toggleDeliveryFields() {
+            if (rozRadio.checked) {
+                ukrFields.style.display = "block";
+                novaFields.style.display = "none";
+            } else if (novaRadio.checked) {
+                ukrFields.style.display = "none";
+                novaFields.style.display = "block";
+            }
+        }
+
+        rozRadio.addEventListener("change", toggleDeliveryFields);
+        novaRadio.addEventListener("change", toggleDeliveryFields);
+
+        toggleDeliveryFields(); // запуск при завантаженні
+    });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const cardButtons = document.getElementById("card-buttons");
+        const cashButton = document.getElementById("cash-button");
+        const hiddenPaymentInput = document.getElementById("payment_method_input");
+
+        // Перемикання між карткою та післяплатою
+        document.querySelectorAll('input[name="payment_method"]').forEach((input) => {
+            input.addEventListener("change", function () {
+                if (this.value === "card") {
+                    cardButtons.classList.remove("d-none");
+                    cashButton.classList.add("d-none");
+                    hiddenPaymentInput.value = ""; // Очікуємо натискання GPay/ApplePay
+                } else {
+                    cardButtons.classList.add("d-none");
+                    cashButton.classList.remove("d-none");
+                    hiddenPaymentInput.value = "cod"; // Післяплата
+                }
+            });
+        });
+
+        // Обробка кнопок оплати
+        document.getElementById("google-pay-btn").addEventListener("click", function () {
+            hiddenPaymentInput.value = "google_pay";
+            document.querySelector("form").submit();
+        });
+
+        document.getElementById("apple-pay-btn").addEventListener("click", function () {
+            hiddenPaymentInput.value = "apple_pay";
+            document.querySelector("form").submit();
+        });
+    });
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const cart = JSON.parse(sessionStorage.getItem("cart")) || [];
+
+    const container = document.getElementById("checkoutCartItems");
+    const itemCountText = document.getElementById("itemCountText");
+    const totalPriceEl = document.getElementById("checkoutTotalPrice");
+    const totalPriceFinalEl = document.getElementById("checkoutTotalPriceFinal");
+
+    const orderItemsInput = document.getElementById("order_items_input");
+    const orderTotalInput = document.getElementById("order_total_input");
+
+    container.innerHTML = "";
+    let total = 0;
+    let count = 0;
+
+    cart.forEach(item => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
+        count += item.quantity;
+
+        const html = `
+            <div class="d-flex align-items-start mb-3">
+                <img src="${item.img}" alt="Продукт" class="me-3 rounded" width="60">
+                <div>
+                    <p class="mb-1 fw-semibold">${item.name}</p>
+                    <p class="mb-1 small text-muted">${item.quantity} шт. / ${item.weight}</p>
+                    <p class="mb-0 fw-bold">${itemTotal} ₴</p>
+                </div>
+            </div>
+        `;
+        container.innerHTML += html;
+    });
+
+    itemCountText.textContent = `${count} товар${getWordEnding(count)}`;
+    totalPriceEl.textContent = `${total} ₴`;
+    totalPriceFinalEl.textContent = `${total} ₴`;
+
+    // Заповнення прихованих полів
+    if (orderItemsInput) {
+        orderItemsInput.value = JSON.stringify(cart);
+    }
+    if (orderTotalInput) {
+        orderTotalInput.value = total.toFixed(2);
+    }
+
+    // Перемикач способу оплати
+    const cardButtons = document.getElementById("card-buttons");
+    const cashButton = document.getElementById("cash-button");
+    const methodInput = document.getElementById("payment_method_input");
+
+    document.querySelectorAll('input[name="payment_method"]').forEach(input => {
+        input.addEventListener("change", function () {
+            if (this.value === "card") {
+                cardButtons.classList.remove("d-none");
+                cashButton.classList.add("d-none");
+            } else {
+                cardButtons.classList.add("d-none");
+                cashButton.classList.remove("d-none");
+            }
+            if (methodInput) {
+                methodInput.value = this.value;
+            }
+        });
+    });
+});
+
+function getWordEnding(count) {
+    if (count % 10 === 1 && count % 100 !== 11) return "";
+    if ([2, 3, 4].includes(count % 10) && ![12, 13, 14].includes(count % 100)) return "і";
+    return "ів";
+}
+</script>
+
+</body>
+</html>
